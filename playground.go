@@ -11,7 +11,7 @@ import (
 // https://github.com/prisma/graphql-playground
 type Config map[string]interface{}
 
-// Ground generates http handler funciton for Go Playground (with CDN)
+// Ground generates http handler function for Go Playground (with CDN)
 func Ground(cfg Config) http.HandlerFunc {
 	return func(resp http.ResponseWriter, req *http.Request) {
 		raiseErr := func(err error) {
