@@ -7,10 +7,10 @@ jobs:
           GO111MODULE: 'on'
     working_directory: /go/src/github.com/hiroaki-yamamoto/gqlplay
     steps:
+      - checkout
       - restore_cache:
           keys:
             - ci-{{ .Branch }}-{{ checksum "go.sum" }}
-      - checkout
       - run:
           name: "Run go mod download"
           command: "go mod download"
