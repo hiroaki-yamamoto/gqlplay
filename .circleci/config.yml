@@ -5,13 +5,13 @@ jobs:
       - image: golang:latest
         environment:
           GO111MODULE: 'on'
-    working_directory: /repo
+    working_directory: ~/repo
     steps:
       - checkout
       - restore_cache:
           keys:
             - ci-{{ .Branch }}-{{ checksum "go.sum" }}
-      - run: echo ${CIRCLE_REPOSITORY_URL}
+      - run: echo ${CIRCLE_PROJECT_REPONAME}
       - run:
           name: "Run go mod download"
           command: "go mod download"
@@ -30,4 +30,4 @@ jobs:
             ../cc-test-reporter before-build &&
             go test -coverprofile=c.out
             export EXIT_CODE=${?};
-            ../cc-test-reporter after-build --exit-code $EXIT_CODE -t gocov --prefix ${CIRCLE_REPOSITORY_URL,https:\/\/,}
+            ../cc-test-reporter after-build --exit-code $EXIT_CODE -t gocov --prefix github.com/hiroaki-yamamoto/${CIRCLE_PROJECT_REPONAME}
