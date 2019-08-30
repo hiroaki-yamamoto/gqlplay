@@ -13,29 +13,43 @@ import (
 )
 
 var _ = Describe("Playground", func() {
+	templateIteration := func(config Config) {
+		It("Should load correctly", func() {
+			fun := Ground(config)
+			tester := httptest.NewRecorder()
+			fun(tester, httptest.NewRequest("GET", "/test", nil))
+
+			var expBuf bytes.Buffer
+			tmp := template.Must(template.New("gqlplay").Parse(gqltmp))
+			cfgTxt, err := json.Marshal(config)
+			Expect(err).To(BeNil())
+			err = tmp.Execute(
+				&expBuf,
+				map[string]interface{}{
+					"setting": template.JS(cfgTxt),
+				},
+			)
+			Expect(err).To(BeNil())
+			Expect(tester.Code).To(Equal(http.StatusOK))
+			Expect(tester.Header().Get("Content-Type")).To(Equal("text/html"))
+			Expect(tester.Body.String()).To(Equal(expBuf.String()))
+		})
+	}
 	Describe("Template", func() {
 		Context("Without Config", func() {
 			var config Config
-			It("Should load correctly", func() {
-				fun := Ground(config)
-				tester := httptest.NewRecorder()
-				fun(tester, httptest.NewRequest("GET", "/test", nil))
-
-				var expBuf bytes.Buffer
-				tmp := template.Must(template.New("gqlplay").Parse(gqltmp))
-				cfgTxt, err := json.Marshal(config)
-				Expect(err).To(BeNil())
-				err = tmp.Execute(
-					&expBuf,
-					map[string]interface{}{
-						"setting": template.JS(cfgTxt),
-					},
-				)
-				Expect(err).To(BeNil())
-				Expect(tester.Code).To(Equal(http.StatusOK))
-				Expect(tester.Header().Get("Content-Type")).To(Equal("text/html"))
-				Expect(tester.Body.String()).To(Equal(expBuf.String()))
+			templateIteration(config)
+		})
+		Context("With Config", func() {
+			var config Config
+			BeforeEach(func() {
+				config = Config{
+					"editor.cursorShape":    "line",
+					"request.credentials":   "same-origin",
+					"schema.polling.enable": false,
+				}
 			})
+			templateIteration(config)
 		})
 		Context("Has non json-serializable values", func() {
 			config := Config{
