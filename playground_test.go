@@ -13,15 +13,15 @@ import (
 )
 
 var _ = Describe("Playground", func() {
-	templateIteration := func(config Config) {
+	templateIteration := func(opt Option) {
 		It("Should load correctly", func() {
-			fun := Ground(config)
+			fun := Ground(opt)
 			tester := httptest.NewRecorder()
 			fun(tester, httptest.NewRequest("GET", "/test", nil))
 
 			var expBuf bytes.Buffer
 			tmp := template.Must(template.New("gqlplay").Parse(gqltmp))
-			cfgTxt, err := json.Marshal(config)
+			cfgTxt, err := json.Marshal(opt)
 			Expect(err).To(BeNil())
 			err = tmp.Execute(
 				&expBuf,
@@ -37,36 +37,40 @@ var _ = Describe("Playground", func() {
 	}
 	Describe("Template", func() {
 		Context("Without Config", func() {
-			var config Config
+			var config Option
 			templateIteration(config)
 		})
 		Context("With Config", func() {
-			var config Config
+			var opt Option
 			BeforeEach(func() {
-				config = Config{
-					"editor.cursorShape":    "line",
-					"request.credentials":   "same-origin",
-					"schema.polling.enable": false,
+				opt = Option{
+					Settings: Settings{
+						CursorShape:    CursorShapeLine,
+						Credentials:    SameOriginCredentials,
+						PollingEnabled: false,
+					},
+					Endpoint:             "/pub",
+					SubscriptionEndpoint: "/pub",
 				}
 			})
-			templateIteration(config)
+			templateIteration(opt)
 		})
-		Context("Has non json-serializable values", func() {
-			config := Config{
-				"test": 1 + 5i, // Complex number cannot be serialized into json.
-			}
-			It("Should be marshal error", func() {
-				fun := Ground(config)
-				_, err := json.Marshal(config)
-				var buf bytes.Buffer
-				buf.WriteString("Cannot Open Playground: ")
-				buf.WriteString(err.Error())
-				tester := httptest.NewRecorder()
-				fun(tester, httptest.NewRequest("GET", "/test", nil))
-				Expect(tester.Code).To(Equal(http.StatusInternalServerError))
-				Expect(tester.Header().Get("Content-Type")).To(Equal("text/plain"))
-				Expect(tester.Body.String()).To(Equal(buf.String()))
-			})
-		})
+		// Context("Has non json-serializable values", func() {
+		// 	config := Config{
+		// 		"test": 1 + 5i, // Complex number cannot be serialized into json.
+		// 	}
+		// 	It("Should be marshal error", func() {
+		// 		fun := Ground(config)
+		// 		_, err := json.Marshal(config)
+		// 		var buf bytes.Buffer
+		// 		buf.WriteString("Cannot Open Playground: ")
+		// 		buf.WriteString(err.Error())
+		// 		tester := httptest.NewRecorder()
+		// 		fun(tester, httptest.NewRequest("GET", "/test", nil))
+		// 		Expect(tester.Code).To(Equal(http.StatusInternalServerError))
+		// 		Expect(tester.Header().Get("Content-Type")).To(Equal("text/plain"))
+		// 		Expect(tester.Body.String()).To(Equal(buf.String()))
+		// 	})
+		// })
 	})
 })
