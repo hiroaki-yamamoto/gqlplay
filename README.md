@@ -24,19 +24,47 @@ However, the playground provided by [GQLGen] has some small-issues. i.e. I cam't
 set configuration to handle CSRF. So, I decided to re-invent the wheel that can
 set the configuration.
 
-<!-- ## How to use?
+[GQLGen]: https://github.com/99designs/gqlgen
+
+## How to use?
 
 ```Go
 package main
 
-import "github.com/hiroaki-yamamoto/gqlplay"
+import "log"
+
+import (
+  "github.com/hiroaki-yamamoto/gqlplay"
+  "github.com/go-chi/chi"
+)
 
 func main() {
-  gqlplay.Ground(gqlplay.Config{
-    "schema.polling.enable": false,
-    "request.credentials": "same-origin",
+  player := gqlplay.Ground(gqlplay.Option{
+    Settings: goplay.Settings{
+      PollingEnabled: false,
+      Credentials: SameOriginCredentials,
+      HideTraceResponse: true,
+    },
+    Headers: map[string]string{
+      "X-CSRF-TOKEN": "blablablabla...",
+    }
   })
+  r := chi.NewRouter()
+  //...Other code...
+  r.Get("/playground", player)
+  svr := http.Server{
+		Addr:    fmt.Sprintf("%s:%d", setting.Host, setting.Port),
+		Handler: chi.ServerBaseContext(ctx, r),
+  }
+  log.Fatal(svr.ListenAndServe())
 }
-``` -->
+```
 
-[GQLGen]: https://github.com/99designs/gqlgen
+It must be easy.
+
+## Contribution
+
+Sending Issues / PR is welcome. PR is more appreciated. However, if you changed
+the behavior, the corresponding changes, additions, and/or deletions of
+the test code is mandatory, if you changed only the doc, the test
+code is not needed.
