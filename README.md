@@ -1,7 +1,10 @@
 # GraphQL Playground Handler Function with Playground Settings in Golang
 
+[![CircleCI]][CircleCILink]
 [![Maintainability]][MILInk] [![Test Coverage]][TCLink] [![Go Report Card]][GRCLink]
 
+[CircleCI]: https://circleci.com/gh/hiroaki-yamamoto/gqlplay.svg?style=svg
+[CircleCILink]: https://circleci.com/gh/hiroaki-yamamoto/gqlplay
 [Maintainability]: https://api.codeclimate.com/v1/badges/e199f4a18d1690f650cb/maintainability
 [MILink]: https://codeclimate.com/github/hiroaki-yamamoto/gqlplay/maintainability
 [Test Coverage]: https://api.codeclimate.com/v1/badges/e199f4a18d1690f650cb/test_coverage
