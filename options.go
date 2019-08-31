@@ -58,8 +58,10 @@ type Settings struct {
 // Option represents the configuration of playground that depends on:
 // https://github.com/prisma/graphql-playground
 type Option struct {
-	Settings             Settings          `json:",omitempty"`
-	Endpoint             string            `json:",omitempty"`
-	SubscriptionEndpoint string            `json:",omitempty"`
-	Headers              map[string]string `json:",omitempty"`
+	Settings             Settings          `json:"settings,omitempty"`
+	Endpoint             string            `json:"endpoint,omitempty"`
+	SubscriptionEndpoint string            `json:"subscriptionEndpoint,omitempty"`
+	WorkspaceName        string            `json:"workspaceName,omitempty"`
+	Config               string            `json:"config,omitempty"`
+	Headers              map[string]string `json:"headers,omitempty"`
 }
