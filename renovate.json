@@ -1,0 +1,24 @@
+{
+  "extends": [
+    "config:base",
+    "schedule:weekends"
+  ],
+  "rangeStrategy": "replace",
+  "lockFileMaintenance": {
+    "enabled": true,
+    "extends": ["schedule:weekends"]
+  },
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "extends": ["schedule:weekends"]
+  },
+  "assignees": ["hiroaki-yamamoto"],
+  "reviewers": ["hiroaki-yamamoto"],
+  "groupName": "Updates",
+  "automerge": true,
+  "major": {
+    "automerge": false,
+    "groupName": "Major Updates",
+    "extends": ["schedule:weekends"]
+  }
+}
