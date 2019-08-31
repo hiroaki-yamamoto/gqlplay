@@ -7,7 +7,7 @@ import (
 )
 
 // Ground generates http handler function for Go Playground (with CDN)
-func Ground(option Option) http.HandlerFunc {
+func Ground(version string, option Option) http.HandlerFunc {
 	return func(resp http.ResponseWriter, req *http.Request) {
 		// raiseErr := func(err error) {
 		// 	var buf bytes.Buffer
@@ -26,6 +26,9 @@ func Ground(option Option) http.HandlerFunc {
 		tmp := template.Must(template.New("gqlplay").Parse(gqltmp))
 		resp.Header().Add("Content-Type", "text/html")
 		resp.WriteHeader(http.StatusOK)
-		tmp.Execute(resp, map[string]interface{}{"setting": template.JS(cfgTxt)})
+		tmp.Execute(resp, map[string]interface{}{
+			"setting": template.JS(cfgTxt),
+			"version": version,
+		})
 	}
 }

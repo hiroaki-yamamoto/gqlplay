@@ -15,7 +15,7 @@ import (
 var _ = Describe("Playground", func() {
 	templateIteration := func(opt Option) {
 		It("Should load correctly", func() {
-			fun := Ground(opt)
+			fun := Ground("latest", opt)
 			tester := httptest.NewRecorder()
 			fun(tester, httptest.NewRequest("GET", "/test", nil))
 
@@ -27,6 +27,7 @@ var _ = Describe("Playground", func() {
 				&expBuf,
 				map[string]interface{}{
 					"setting": template.JS(cfgTxt),
+					"version": "latest",
 				},
 			)
 			Expect(err).To(BeNil())
