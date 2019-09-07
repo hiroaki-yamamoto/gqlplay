@@ -31,4 +31,8 @@ jobs:
         ../cc-test-reporter before-build &&
         go test -coverprofile=c.out
         export EXIT_CODE=${?};
-        ../cc-test-reporter after-build --exit-code $EXIT_CODE -t gocov --prefix github.com/hiroaki-yamamoto/gqlplay
+        ../cc-test-reporter after-build \
+          --exit-code $EXIT_CODE \
+          -t gocov \
+          --prefix github.com/hiroaki-yamamoto/gqlplay \
+          -r ${{ secrets.CC_TEST_REPORTER_ID }}
