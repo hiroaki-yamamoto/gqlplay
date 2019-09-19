@@ -8,6 +8,7 @@ import (
 
 // Ground generates http handler function for Go Playground (with CDN)
 func Ground(version string, option Option) http.HandlerFunc {
+	tmp := template.Must(template.New("gqlplay").Parse(gqltmp))
 	return func(resp http.ResponseWriter, req *http.Request) {
 		// raiseErr := func(err error) {
 		// 	var buf bytes.Buffer
@@ -23,7 +24,6 @@ func Ground(version string, option Option) http.HandlerFunc {
 		// 	return
 		// }
 		cfgTxt, _ := json.Marshal(option)
-		tmp := template.Must(template.New("gqlplay").Parse(gqltmp))
 		resp.Header().Add("Content-Type", "text/html")
 		resp.WriteHeader(http.StatusOK)
 		tmp.Execute(resp, map[string]interface{}{
