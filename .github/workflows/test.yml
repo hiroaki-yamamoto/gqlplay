@@ -1,0 +1,36 @@
+name: Test
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-go@v2
+    - uses: actions/cache@v2
+      with:
+        key: ${{ runner.os }}-${{ hashfiles('go.sum') }}
+        path: |
+          ~/go
+    - name: "Get Coverage Reporter"
+      run: |
+        curl -o ../cc-test-reporter \
+          -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
+        chmod +x ../cc-test-reporter
+    - name: Test
+      run: |
+        export GIT_COMMITTED_AT=$(date +%s)
+        export GIT_BRANCH=${{ github.ref_name }}
+        ./cc-test-reporter before-build
+        go test -coverprofile=c.out -v ./...
+        export EXIT_CODE=${?};
+        ../cc-test-reporter after-build \
+          --exit-code $EXIT_CODE \
+          -t gocov \
+          --prefix github.com/${{ github.repository }}
