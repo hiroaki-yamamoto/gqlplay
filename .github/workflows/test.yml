@@ -27,7 +27,7 @@ jobs:
       run: |
         export GIT_COMMITTED_AT=$(date +%s)
         export GIT_BRANCH=${{ github.ref_name }}
-        ./cc-test-reporter before-build
+        ../cc-test-reporter before-build
         go test -coverprofile=c.out -v ./...
         export EXIT_CODE=${?};
         ../cc-test-reporter after-build \
