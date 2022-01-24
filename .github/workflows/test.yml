@@ -34,3 +34,5 @@ jobs:
           --exit-code $EXIT_CODE \
           -t gocov \
           --prefix github.com/${{ github.repository }}
+      env:
+        CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
