@@ -13,13 +13,13 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
-          go-version: "1.19"
+          go-version: "^1.21"
           check-latest: true
-      # - uses: actions/cache@v4
-      #   with:
-      #     key: ${{ runner.os }}-${{ hashfiles('go.sum') }}
-      #     path: |
-      #       ~/go
+      - uses: actions/cache@v4
+        with:
+          key: ${{ runner.os }}-${{ hashfiles('go.sum') }}
+          path: |
+            ~/go
       - name: "Get Coverage Reporter"
         run: |
           curl -o ../cc-test-reporter \
