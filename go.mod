@@ -2,7 +2,7 @@ module github.com/hiroaki-yamamoto/gqlplay
 
 go 1.22.0
 
-toolchain go1.23.2
+toolchain go1.23.3
 
 require (
 	github.com/onsi/ginkgo/v2 v2.21.0
