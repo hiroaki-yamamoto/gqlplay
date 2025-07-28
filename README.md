@@ -4,10 +4,10 @@
 
 [Test]: https://github.com/hiroaki-yamamoto/gqlplay/actions/workflows/test.yml/badge.svg
 [TestLink]: https://github.com/hiroaki-yamamoto/gqlplay/actions/workflows/test.yml
-[Maintainability]: https://api.codeclimate.com/v1/badges/e199f4a18d1690f650cb/maintainability
-[MILink]: https://codeclimate.com/github/hiroaki-yamamoto/gqlplay/maintainability
-[Test Coverage]: https://api.codeclimate.com/v1/badges/e199f4a18d1690f650cb/test_coverage
-[TCLink]: https://codeclimate.com/github/hiroaki-yamamoto/gqlplay/test_coverage
+[Maintainability]: https://qlty.sh/gh/hiroaki-yamamoto/projects/gqlplay/maintainability.svg
+[MILink]: https://qlty.sh/gh/hiroaki-yamamoto/projects/gqlplay
+[Test Coverage]: https://qlty.sh/gh/hiroaki-yamamoto/projects/gqlplay/coverage.svg
+[TCLink]: https://qlty.sh/gh/hiroaki-yamamoto/projects/gqlplay
 [Go Report Card]: https://goreportcard.com/badge/github.com/hiroaki-yamamoto/gqlplay
 [GRCLink]: https://goreportcard.com/report/github.com/hiroaki-yamamoto/gqlplay
 
